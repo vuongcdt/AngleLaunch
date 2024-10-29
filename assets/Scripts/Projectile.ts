@@ -1,4 +1,4 @@
-import { _decorator, Canvas, Collider2D, Component, Contact2DType, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
+import { _decorator, Canvas, Collider2D, Component, Contact2DType, IPhysics2DContact, math, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
 import { SHOOT } from './CONSTANTS';
 const { ccclass, property } = _decorator;
@@ -54,18 +54,29 @@ export class Projectile extends Component {
         this._rg.linearVelocity = new Vec2(target.x, target.y);
     }
 
-    onBeginContact(selfCollider: Collider2D) {
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         this._rg.linearVelocity = Vec2.ZERO;
 
-        setTimeout(() => {
-            this.node.position = selfCollider.node.position;
-            this.node.angle = (this.node.angle + 180 * this._dirRotation) % 360;
+        const worldPos = contact.getWorldManifold().points[0];
+        const localPoint = selfCollider.node.inverseTransformPoint(new Vec3(), new Vec3(worldPos.x, worldPos.y));
 
+        const angle = this.getAngleFromVec3(localPoint);
+
+        setTimeout(() => {
+
+            this.node.position = selfCollider.node.position;
+            this.node.angle = angle;
             this._dirRotation = this._dirArr[randomRangeInt(0, 2)];
             this.startRotation();
         }, 0);
     }
 
+    getAngleFromVec3(vec: Vec3): number {
+        const angleRadians = Math.atan2(vec.y, vec.x); 
+        const angleDegrees = math.toDegree(angleRadians); 
+        return angleDegrees; 
+    }
+    
     getDurationRotation() {
         let angleNode = this.node.angle;
         let duration = this._duration * (360 - angleNode * this._dirRotation) / 360;
