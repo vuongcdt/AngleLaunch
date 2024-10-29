@@ -640,7 +640,7 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "speedRotation": 3,
+    "speedRotation": 5,
     "speedShoot": 1,
     "canvas": {
       "__id__": 27

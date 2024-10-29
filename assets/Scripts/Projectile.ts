@@ -1,4 +1,4 @@
-import { _decorator, Canvas, CircleCollider2D, Collider2D, Component, Contact2DType, ICollisionEvent, IPhysics2DContact, math, Node, PhysicsSystem2D, Quat, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
+import { _decorator, Canvas, CircleCollider2D, Collider2D, Component, Contact2DType, ICollisionEvent, IPhysics2DContact, math, Node, PhysicsSystem2D, Quat, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
 import { SHOOT } from './CONSTANTS';
 const { ccclass, property } = _decorator;
@@ -17,6 +17,7 @@ export class Projectile extends Component {
     private _duration: number = 0;
     private _dirRotation: number = -1;
     private _rg: RigidBody2D;
+    private _dirArr: number[] = [-1, 1];
 
     start() {
         if (PhysicsSystem2D.instance) {
@@ -66,7 +67,7 @@ export class Projectile extends Component {
         setTimeout(() => {
             this.node.position = selfCollider.node.position;
             this.node.angle *= -1;
-            // this._dirRotation = 
+            this._dirRotation = this._dirArr[randomRangeInt(0, 2)];
             this.startRotation();
         }, 0);
     }
