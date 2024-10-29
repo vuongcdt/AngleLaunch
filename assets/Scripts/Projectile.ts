@@ -48,7 +48,7 @@ export class Projectile extends Component {
         const target = posNodedAvatar
             .subtract(this.node.position)
             .normalize()
-            .multiplyScalar(15 / this.speedShoot);
+            .multiplyScalar(20 / this.speedShoot);
 
         Tween.stopAll();
         this._rg.linearVelocity = new Vec2(target.x, target.y);
