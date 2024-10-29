@@ -1,6 +1,7 @@
 import { _decorator, Canvas, Collider2D, Component, Contact2DType, IPhysics2DContact, math, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
 import { SHOOT } from './CONSTANTS';
+import { Bubble } from './Bubble';
 const { ccclass, property } = _decorator;
 
 @ccclass('Projectile')
@@ -12,7 +13,7 @@ export class Projectile extends Component {
     @property(Canvas)
     private canvas: Canvas;
 
-    private _centerPoint: Vec3 = v3(400, 0);
+    private _startPoint: Vec3 = v3(400, 0);
     private _avatar: Node;
     private _duration: number = 0;
     private _dirRotation: number = -1;
@@ -27,7 +28,7 @@ export class Projectile extends Component {
         this._rg = this.getComponent(RigidBody2D);
         this._duration = 10 / this.speedRotation;
 
-        this.node.position = this._centerPoint;
+        this.node.position = this._startPoint;
         this._avatar = this.getComponentInChildren(Sprite).node;
         this.startRotation();
     }
@@ -48,7 +49,7 @@ export class Projectile extends Component {
         const target = posNodedAvatar
             .subtract(this.node.position)
             .normalize()
-            .multiplyScalar(20 / this.speedShoot);
+            .multiplyScalar(20 * this.speedShoot);
 
         Tween.stopAll();
         this._rg.linearVelocity = new Vec2(target.x, target.y);
@@ -56,14 +57,16 @@ export class Projectile extends Component {
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         this._rg.linearVelocity = Vec2.ZERO;
-
+        const bubble = selfCollider.getComponent(Bubble);
+        if (!bubble) {
+            return;
+        }
+        bubble.setCurrentBubble();
         const worldPos = contact.getWorldManifold().points[0];
         const localPoint = selfCollider.node.inverseTransformPoint(new Vec3(), new Vec3(worldPos.x, worldPos.y));
-
         const angle = this.getAngleFromVec3(localPoint);
 
         setTimeout(() => {
-
             this.node.position = selfCollider.node.position;
             this.node.angle = angle;
             this._dirRotation = this._dirArr[randomRangeInt(0, 2)];
@@ -72,11 +75,11 @@ export class Projectile extends Component {
     }
 
     getAngleFromVec3(vec: Vec3): number {
-        const angleRadians = Math.atan2(vec.y, vec.x); 
-        const angleDegrees = math.toDegree(angleRadians); 
-        return angleDegrees; 
+        const angleRadians = Math.atan2(vec.y, vec.x);
+        const angleDegrees = math.toDegree(angleRadians);
+        return angleDegrees;
     }
-    
+
     getDurationRotation() {
         let angleNode = this.node.angle;
         let duration = this._duration * (360 - angleNode * this._dirRotation) / 360;

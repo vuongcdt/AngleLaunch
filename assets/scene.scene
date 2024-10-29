@@ -21,12 +21,15 @@
       },
       {
         "__id__": 71
+      },
+      {
+        "__id__": 73
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 73
+      "__id__": 75
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -57,7 +60,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 74
+      "__id__": 76
     },
     "_id": "dd6dba8f-02d7-44f2-a220-5ec0dd160458"
   },
@@ -202,8 +205,8 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 0,
-      "g": 0,
-      "b": 0,
+      "g": 10,
+      "b": 253,
       "a": 255
     },
     "_depth": 1,
@@ -1115,7 +1118,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "45828f25-b50d-4c52-a591-e19491a62b8c@f9941",
+      "__uuid__": "f12a23c4-b924-4322-a260-3d982428f1e8@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -1166,7 +1169,7 @@
     "_enabled": true,
     "__prefab": null,
     "speedRotation": 5,
-    "speedShoot": 1,
+    "speedShoot": 2,
     "canvas": {
       "__id__": 65
     },
@@ -1389,6 +1392,83 @@
     "_id": "d4IX8zyP1BJ5gtP/WnQBu5"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "GameManager",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 74
+      }
+    ],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "4f0lslE5hE2YbW2c196qoR"
+  },
+  {
+    "__type__": "35b938WFQdEVaDFT6B9a/Wl",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 73
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "bubbleNodeList": [
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 23
+      },
+      {
+        "__id__": 33
+      },
+      {
+        "__id__": 43
+      },
+      {
+        "__id__": 51
+      }
+    ],
+    "_id": "82aUIy7atPb7oPK9TKyXVF"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": null,
     "asset": null,
@@ -1419,28 +1499,28 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 75
-    },
-    "shadows": {
-      "__id__": 76
-    },
-    "_skybox": {
       "__id__": 77
     },
-    "fog": {
+    "shadows": {
       "__id__": 78
     },
-    "octree": {
+    "_skybox": {
       "__id__": 79
     },
-    "skin": {
+    "fog": {
       "__id__": 80
     },
-    "lightProbeInfo": {
+    "octree": {
       "__id__": 81
     },
-    "postSettings": {
+    "skin": {
       "__id__": 82
+    },
+    "lightProbeInfo": {
+      "__id__": 83
+    },
+    "postSettings": {
+      "__id__": 84
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
