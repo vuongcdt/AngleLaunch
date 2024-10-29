@@ -40,13 +40,6 @@ export class Projectile extends Component {
                 this.startRotation();
             })
             .start();
-
-        // tween(this.node)
-        //     .to(this._duration, { eulerAngles: v3(0, 0, 90) })
-        //     .call(() => {
-        //         this.shootProjectile();
-        //     })
-        //     .start();
     }
 
     shootProjectile() {
@@ -65,12 +58,8 @@ export class Projectile extends Component {
         this._rg.linearVelocity = Vec2.ZERO;
 
         setTimeout(() => {
-            // console.log('selfCollider.node.position', selfCollider.node.position);
-            // console.log('this.node.position', this.node.position);
             this.node.position = selfCollider.node.position;
-            // console.log('this.node.position', this.node.position);
             this.node.angle = (this.node.angle + 180 * this._dirRotation) % 360;
-            console.log('angle', this.node.angle);
 
             this._dirRotation = this._dirArr[randomRangeInt(0, 2)];
             this.startRotation();
@@ -83,7 +72,6 @@ export class Projectile extends Component {
         if (duration < 0) {
             duration *= -1;
         }
-        console.log('duration', duration);
 
         return duration;
     }
