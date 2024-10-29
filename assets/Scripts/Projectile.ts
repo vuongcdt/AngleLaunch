@@ -15,6 +15,7 @@ export class Projectile extends Component {
     private _centerPoint: Vec3 = Vec3.ZERO;
     private _avatar: Node;
     private _duration: number = 0;
+    private _dirRotation: number = -1;
     private _rg: RigidBody2D;
 
     start() {
@@ -31,10 +32,8 @@ export class Projectile extends Component {
     }
 
     startRotation() {
-        console.log('angle', this.node.angle);
-
         tween(this.node)
-            .to(this._duration, { eulerAngles: v3(0, 0, 360) })
+            .to(this.getDurationRotation(), { eulerAngles: v3(0, 0, 360 * this._dirRotation) })
             .call(() => {
                 this.node.setRotationFromEuler(0, 0, 0);
                 this.startRotation();
@@ -66,9 +65,15 @@ export class Projectile extends Component {
 
         setTimeout(() => {
             this.node.position = selfCollider.node.position;
-            this.node.angle += 180;
+            this.node.angle *= -1;
+            // this._dirRotation = 
             this.startRotation();
         }, 0);
+    }
+
+    getDurationRotation() {
+        let angleNode = this.node.angle;
+        return this._duration * (360 - angleNode * this._dirRotation) / 360;
     }
 }
 
