@@ -1,4 +1,4 @@
-import { _decorator, Canvas, CircleCollider2D, Collider2D, Component, Contact2DType, ICollisionEvent, IPhysics2DContact, math, Node, PhysicsSystem2D, Quat, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
+import { _decorator, Canvas, Collider2D, Component, Contact2DType, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
 import { SHOOT } from './CONSTANTS';
 const { ccclass, property } = _decorator;
@@ -12,7 +12,7 @@ export class Projectile extends Component {
     @property(Canvas)
     private canvas: Canvas;
 
-    private _centerPoint: Vec3 = Vec3.ZERO;
+    private _centerPoint: Vec3 = v3(400, 0);
     private _avatar: Node;
     private _duration: number = 0;
     private _dirRotation: number = -1;
@@ -65,8 +65,13 @@ export class Projectile extends Component {
         this._rg.linearVelocity = Vec2.ZERO;
 
         setTimeout(() => {
+            // console.log('selfCollider.node.position', selfCollider.node.position);
+            // console.log('this.node.position', this.node.position);
             this.node.position = selfCollider.node.position;
-            this.node.angle *= -1;
+            // console.log('this.node.position', this.node.position);
+            this.node.angle = (this.node.angle + 180 * this._dirRotation) % 360;
+            console.log('angle', this.node.angle);
+
             this._dirRotation = this._dirArr[randomRangeInt(0, 2)];
             this.startRotation();
         }, 0);
@@ -74,7 +79,13 @@ export class Projectile extends Component {
 
     getDurationRotation() {
         let angleNode = this.node.angle;
-        return this._duration * (360 - angleNode * this._dirRotation) / 360;
+        let duration = this._duration * (360 - angleNode * this._dirRotation) / 360;
+        if (duration < 0) {
+            duration *= -1;
+        }
+        console.log('duration', duration);
+
+        return duration;
     }
 }
 
