@@ -14,7 +14,7 @@ export class Projectile extends Component {
     @property(Canvas)
     private canvas: Canvas;
 
-    private _startPoint: Vec3 = v3(400, 0);
+    private _startPoint: Vec3 = v3(350, 0);
     private _avatar: Node;
     private _duration: number = 0;
     private _dirRotation: number = -1;
