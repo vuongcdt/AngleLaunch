@@ -14,7 +14,7 @@ export class UIManager extends Component {
     }
 
     setScore(data: number) {
-        this.scoreText.string = data.toString();
+        this.scoreText.string = data == 0 ? '' : data.toString();
     }
 }
 

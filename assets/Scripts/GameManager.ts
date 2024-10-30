@@ -22,6 +22,8 @@ export class GameManager extends Component {
     }
 
     reset() {
+        this._score = 0;
+        eventTarget.emit(SET_SCORE, this._score);
         this._currentBubble = this._bubbleList[0];
         this._nextBubble = this._bubbleList[randomRangeInt(0, 6)];
 
