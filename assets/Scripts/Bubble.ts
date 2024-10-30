@@ -1,4 +1,4 @@
-import { _decorator, CircleCollider2D, Collider2D, Color, Component, ERigidBody2DType, RigidBody2D, Sprite } from 'cc';
+import { _decorator, CircleCollider2D, Collider2D, Color, Component, RigidBody2D, Sprite } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Bubble')

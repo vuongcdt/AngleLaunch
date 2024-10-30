@@ -61,7 +61,7 @@ export class Projectile extends Component {
         const bubble = selfCollider.getComponent(Bubble);
         const obstacle = selfCollider.getComponent(Obstacle);
 
-        if(obstacle){
+        if (obstacle) {
             console.log('game over');
         }
 
@@ -69,7 +69,7 @@ export class Projectile extends Component {
             return;
         }
 
-        eventTarget.emit(SHOOT_BUBBLE,bubble);
+        eventTarget.emit(SHOOT_BUBBLE, bubble);
 
         const worldPos = contact.getWorldManifold().points[0];
         const localPoint = selfCollider.node.inverseTransformPoint(new Vec3(), new Vec3(worldPos.x, worldPos.y));

@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node } from 'cc';
+import { _decorator, Component, Label } from 'cc';
 import { eventTarget } from './Common';
 import { SET_SCORE } from './CONSTANTS';
 const { ccclass, property } = _decorator;

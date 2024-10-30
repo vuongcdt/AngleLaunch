@@ -1,7 +1,7 @@
-import { _decorator, Component, Label, Node, randomRangeInt } from 'cc';
+import { _decorator, Component, randomRangeInt } from 'cc';
 import { Bubble } from './Bubble';
 import { eventTarget } from './Common';
-import { SET_SCORE, SHOOT_BUBBLE } from './CONSTANTS';
+import { SET_HAS_SHOOT, SET_SCORE, SHOOT_BUBBLE } from './CONSTANTS';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
@@ -13,8 +13,8 @@ export class GameManager extends Component {
     private _score: number = 0;
 
     start() {
-        this.init();
         eventTarget.on(SHOOT_BUBBLE, e => this.shootBubble(e));
+        this.init();
     }
 
     init() {
@@ -46,6 +46,7 @@ export class GameManager extends Component {
         this._currentBubble = data;
         this.setBubbles();
         this.setScore();
+        eventTarget.emit(SET_HAS_SHOOT);
     }
 
     setScore() {
