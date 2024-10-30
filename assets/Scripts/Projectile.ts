@@ -63,6 +63,7 @@ export class Projectile extends Component {
 
         if (obstacle) {
             console.log('game over');
+            
         }
 
         if (!bubble) {
