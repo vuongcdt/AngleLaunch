@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, randomRangeInt } from 'cc';
+import { _decorator, Component, Label, Node, randomRangeInt } from 'cc';
 import { Bubble } from './Bubble';
 import { eventTarget } from './Common';
 import { SHOOT_BUBBLE } from './CONSTANTS';
@@ -6,13 +6,18 @@ const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
 export class GameManager extends Component {
+    @property(Label)
+    private scoreText:Label;
+
     private _bubbleList: Bubble[] = [];
     private _currentBubble: Bubble = null;
     private _nextBubble: Bubble = null;
+    private _score: number = 0;
 
     start() {
         this.init();
         eventTarget.on(SHOOT_BUBBLE, e => this.shootBubble(e));
+        this.scoreText.string = '';
     }
 
     init() {
@@ -43,6 +48,12 @@ export class GameManager extends Component {
     shootBubble(data: Bubble) {
         this._currentBubble = data;
         this.setBubbles();
+        this.setScore();
+    }
+
+    setScore(){
+        this._score++;
+        this.scoreText.string = this._score.toString();
     }
 }
 
