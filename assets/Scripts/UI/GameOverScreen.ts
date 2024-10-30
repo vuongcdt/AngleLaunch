@@ -7,12 +7,12 @@ const { ccclass, property } = _decorator;
 export class GameOverScreen extends Component {
     @property(Label)
     private scoreText: Label;
-    @property(Button)
-    private replayBtn: Button;
+    @property(Node)
+    private replayBtn: Node;
 
     start() {
         eventTarget.on(SHOW_GAME_OVER_SCREEN, e => this.show(e));
-        this.replayBtn.node.on(Button.EventType.CLICK, this.onReplayClicked, this);
+        this.replayBtn.on(Button.EventType.CLICK, this.onReplayClicked, this);
         this.node.active = false;
     }
 

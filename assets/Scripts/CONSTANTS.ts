@@ -12,6 +12,7 @@ export const GAME_OVER: string = 'GAME_OVER';
 export const RESET_GAME: string = 'RESET_GAME';
 export const SHOW_GAME_OVER_SCREEN: string = 'SHOW_GAME_OVER_SCREEN';
 export const HIDE_GAME_OVER_SCREEN: string = 'HIDE_GAME_OVER_SCREEN';
+export const INIT_PROJECTILE: string = 'INIT_PROJECTILE';
 
 
 

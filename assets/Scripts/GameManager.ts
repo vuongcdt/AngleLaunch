@@ -1,14 +1,12 @@
 import { _decorator, Component, randomRangeInt } from 'cc';
 import { Bubble } from './Bubble';
 import { eventTarget } from './Common';
-import { GAME_OVER, RESET_GAME, SET_HAS_SHOOT, SET_SCORE, SHOOT_BUBBLE, SHOW_GAME_OVER_SCREEN } from './CONSTANTS';
+import { GAME_OVER, INIT_PROJECTILE, RESET_GAME, SET_HAS_SHOOT, SET_SCORE, SHOOT_BUBBLE, SHOW_GAME_OVER_SCREEN } from './CONSTANTS';
 import { Projectile } from './Projectile';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
 export class GameManager extends Component {
-    @property(Projectile)
-    private projectile: Projectile;
 
     private _bubbleList: Bubble[] = [];
     private _currentBubble: Bubble = null;
@@ -19,7 +17,7 @@ export class GameManager extends Component {
         eventTarget.on(SHOOT_BUBBLE, e => this.shootBubble(e));
         eventTarget.on(GAME_OVER, e => this.setGameOver());
         eventTarget.on(RESET_GAME, e => this.reset());
-        
+
         this._bubbleList = this.getComponentsInChildren(Bubble);
         this.reset();
     }
@@ -29,7 +27,7 @@ export class GameManager extends Component {
         this._nextBubble = this._bubbleList[randomRangeInt(0, 6)];
 
         this.setBubbles();
-        this.projectile.init(this._currentBubble.node.position);
+        eventTarget.emit(INIT_PROJECTILE,this._currentBubble.node.position);
         eventTarget.emit(SET_HAS_SHOOT);
     }
 

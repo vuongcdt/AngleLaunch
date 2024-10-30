@@ -1,6 +1,6 @@
 import { _decorator, Canvas, Collider2D, Component, Contact2DType, IPhysics2DContact, math, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
-import { GAME_OVER, SHOOT, SHOOT_BUBBLE } from './CONSTANTS';
+import { GAME_OVER, INIT_PROJECTILE, SHOOT, SHOOT_BUBBLE } from './CONSTANTS';
 import { Bubble } from './Bubble';
 import { Obstacle } from './Obstacle';
 const { ccclass, property } = _decorator;
@@ -20,12 +20,14 @@ export class Projectile extends Component {
     private _rg: RigidBody2D;
     private _dirArr: number[] = [-1, 1];
 
-    start() {
+    onLoad() {
         if (PhysicsSystem2D.instance) {
             PhysicsSystem2D.instance.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
         }
 
-        eventTarget.on(SHOOT, () => this.shootProjectile());
+        eventTarget.on(SHOOT, e => this.shootProjectile());
+        eventTarget.on(INIT_PROJECTILE, e => this.init(e));
+
         this._rg = this.getComponent(RigidBody2D);
         this._avatar = this.getComponentInChildren(Sprite).node;
         this._duration = 10 / this.speedRotation;
@@ -33,6 +35,7 @@ export class Projectile extends Component {
 
     init(startPoint: Vec3) {
         this.node.position = startPoint;
+        this.node.angle = 0;
         this.startRotation();
     }
 

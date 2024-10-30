@@ -1,14 +1,18 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Button, Component, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('HomeScreen')
 export class HomeScreen extends Component {
-    start() {
+    @property(Node)
+    private playBtn: Node;
 
+    start() {
+        this.playBtn.on(Button.EventType.CLICK, this.onPlayClicked, this);
     }
 
-    update(deltaTime: number) {
-        
+    onPlayClicked(){
+        this.node.active = false;
     }
 }
-
+
+
