@@ -1,6 +1,6 @@
 import { _decorator, AudioSource, Component } from 'cc';
 import { eventTarget } from './Common';
-import { PLAY_GAME_OVER_SOUND, PLAY_HIT_SOUND, PLAY_SHOOT_SOUND } from './CONSTANTS';
+import { PLAY_GAME_OVER_SOUND, PLAY_HIT_SOUND, PLAY_SHOOT_SOUND, TOGGLE_SOUND } from './CONSTANTS';
 const { ccclass, property } = _decorator;
 
 @ccclass('SoundManager')
@@ -16,6 +16,7 @@ export class SoundManager extends Component {
         eventTarget.on(PLAY_SHOOT_SOUND, e => this.playShootSound());
         eventTarget.on(PLAY_HIT_SOUND, e => this.playHitSound());
         eventTarget.on(PLAY_GAME_OVER_SOUND, e => this.playGameOverSound());
+        eventTarget.on(TOGGLE_SOUND, e => this.toggleSound(e));
     }
 
     playShootSound() {
@@ -30,6 +31,11 @@ export class SoundManager extends Component {
         this.gameOverSound.play();
     }
 
+    toggleSound(isSound: boolean) {
+        this.shootSound.volume = isSound ? 1 : 0;
+        this.hitSound.volume = isSound ? 1 : 0;
+        this.gameOverSound.volume = isSound ? 1 : 0;
+    }
 }
 
 

@@ -16,6 +16,7 @@ export const INIT_PROJECTILE: string = 'INIT_PROJECTILE';
 export const PLAY_SHOOT_SOUND: string = 'PLAY_SHOOT_SOUND';
 export const PLAY_HIT_SOUND: string = 'PLAY_HIT_SOUND';
 export const PLAY_GAME_OVER_SOUND: string = 'PLAY_GAME_OVER_SOUND';
+export const TOGGLE_SOUND: string = 'TOGGLE_SOUND';
 
 
 
