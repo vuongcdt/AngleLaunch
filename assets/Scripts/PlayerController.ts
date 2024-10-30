@@ -5,7 +5,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('PlayerController')
 export class PlayerController extends Component {
-    private _isHasShoot: boolean = true;
+    private _isHasShoot: boolean = false;
 
     start() {
         input.on(Input.EventType.TOUCH_END, this.onTouchStart, this);
