@@ -1,36 +1,39 @@
-import { _decorator, Color, Component, Sprite } from 'cc';
-import { eventTarget } from './Common';
-import { SET_ACTIVE_BUBBLE, SET_CURRENT_BUBBLE, SET_HIDE_BUBBLE } from './CONSTANTS';
+import { _decorator, CircleCollider2D, Collider2D, Color, Component, ERigidBody2DType, RigidBody2D, Sprite } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Bubble')
 export class Bubble extends Component {
     private _avatar: Sprite;
-    private _index: number;
+    private _rg: RigidBody2D;
+    private _collider: Collider2D;
 
-    start() {
-        // eventTarget.on(SET_ACTIVE_BUBBLE, e => this.setActiveBubble());
-        // eventTarget.on(SET_CURRENT_BUBBLE, e => this.setCurrentBubble());
-        // eventTarget.on(SET_HIDE_BUBBLE, e => this.setHidenBubble());
+    onLoad() {
         this._avatar = this.getComponentInChildren(Sprite);
+        this._rg = this.getComponent(RigidBody2D);
+        this._collider = this.getComponent(CircleCollider2D);
     }
 
     setActiveBubble() {
         this._avatar.color = Color.WHITE;
+        this.toggleCollider(true);
     }
 
     setHidenBubble() {
         this._avatar.color = Color.GRAY;
+        this.toggleCollider(false);
     }
 
     setCurrentBubble() {
         this._avatar.color = Color.BLACK;
+        this.toggleCollider(true);
     }
 
-    setIndex(index: number) {
-        this._index = index;
+    private toggleCollider(isActive: boolean) {
+        this._collider.enabled = isActive;
+        setTimeout(() => {
+            this._rg.enabled = isActive;
+        }, 0);
     }
-
 }
 
 

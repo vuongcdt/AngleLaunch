@@ -1,6 +1,6 @@
 import { _decorator, Canvas, Collider2D, Component, Contact2DType, IPhysics2DContact, math, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
-import { SHOOT } from './CONSTANTS';
+import { SHOOT, SHOOT_BUBBLE } from './CONSTANTS';
 import { Bubble } from './Bubble';
 const { ccclass, property } = _decorator;
 
@@ -61,7 +61,9 @@ export class Projectile extends Component {
         if (!bubble) {
             return;
         }
-        bubble.setCurrentBubble();
+        // bubble.setCurrentBubble();
+        eventTarget.emit(SHOOT_BUBBLE,bubble);
+
         const worldPos = contact.getWorldManifold().points[0];
         const localPoint = selfCollider.node.inverseTransformPoint(new Vec3(), new Vec3(worldPos.x, worldPos.y));
         const angle = this.getAngleFromVec3(localPoint);
