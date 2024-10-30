@@ -2,6 +2,7 @@ import { _decorator, Canvas, Collider2D, Component, Contact2DType, IPhysics2DCon
 import { eventTarget } from './Common';
 import { SHOOT, SHOOT_BUBBLE } from './CONSTANTS';
 import { Bubble } from './Bubble';
+import { Obstacle } from './Obstacle';
 const { ccclass, property } = _decorator;
 
 @ccclass('Projectile')
@@ -58,10 +59,16 @@ export class Projectile extends Component {
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         this._rg.linearVelocity = Vec2.ZERO;
         const bubble = selfCollider.getComponent(Bubble);
+        const obstacle = selfCollider.getComponent(Obstacle);
+
+        if(obstacle){
+            console.log('game over');
+        }
+
         if (!bubble) {
             return;
         }
-        // bubble.setCurrentBubble();
+
         eventTarget.emit(SHOOT_BUBBLE,bubble);
 
         const worldPos = contact.getWorldManifold().points[0];
