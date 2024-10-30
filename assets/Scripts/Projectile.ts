@@ -1,6 +1,6 @@
 import { _decorator, Canvas, Collider2D, Component, Contact2DType, IPhysics2DContact, math, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
-import { GAME_OVER, INIT_PROJECTILE, SHOOT, SHOOT_BUBBLE } from './CONSTANTS';
+import { GAME_OVER, INIT_PROJECTILE, SHOOT, HIT_BUBBLE, PLAY_HIT_SOUND, PLAY_GAME_OVER_SOUND } from './CONSTANTS';
 import { Bubble } from './Bubble';
 import { Obstacle } from './Obstacle';
 const { ccclass, property } = _decorator;
@@ -52,6 +52,7 @@ export class Projectile extends Component {
     shootProjectile() {
         const posWorldAvatar = this._avatar.getWorldPosition();
         const posNodedAvatar = this.canvas.getComponent(UITransform).convertToNodeSpaceAR(posWorldAvatar);
+
         const target = posNodedAvatar
             .subtract(this.node.position)
             .normalize()
@@ -68,13 +69,16 @@ export class Projectile extends Component {
 
         if (obstacle) {
             eventTarget.emit(GAME_OVER);
+            eventTarget.emit(PLAY_GAME_OVER_SOUND);
+            return;
         }
 
         if (!bubble) {
             return;
         }
 
-        eventTarget.emit(SHOOT_BUBBLE, bubble);
+        eventTarget.emit(HIT_BUBBLE, bubble);
+        eventTarget.emit(PLAY_HIT_SOUND);
 
         const worldPos = contact.getWorldManifold().points[0];
         const localPoint = selfCollider.node.inverseTransformPoint(new Vec3(), new Vec3(worldPos.x, worldPos.y));
@@ -97,6 +101,7 @@ export class Projectile extends Component {
     getDurationRotation() {
         let angleNode = this.node.angle;
         let duration = this._duration * (360 - angleNode * this._dirRotation) / 360;
+
         if (duration < 0) {
             duration *= -1;
         }

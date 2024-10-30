@@ -1,6 +1,6 @@
 import { _decorator, Component, Input, input } from 'cc';
 import { eventTarget } from './Common';
-import { SET_HAS_SHOOT, SHOOT } from './CONSTANTS';
+import { PLAY_SHOOT_SOUND, SET_HAS_SHOOT, SHOOT } from './CONSTANTS';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerController')
@@ -20,6 +20,7 @@ export class PlayerController extends Component {
 
         this._isHasShoot = false;
         eventTarget.emit(SHOOT);
+        eventTarget.emit(PLAY_SHOOT_SOUND);
     }
 
     setCanShoot() {

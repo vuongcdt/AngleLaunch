@@ -1,8 +1,7 @@
 import { _decorator, Component, randomRangeInt } from 'cc';
 import { Bubble } from './Bubble';
 import { eventTarget } from './Common';
-import { GAME_OVER, INIT_PROJECTILE, RESET_GAME, SET_HAS_SHOOT, SET_SCORE, SHOOT_BUBBLE, SHOW_GAME_OVER_SCREEN } from './CONSTANTS';
-import { Projectile } from './Projectile';
+import { GAME_OVER, INIT_PROJECTILE, RESET_GAME, SET_HAS_SHOOT, SET_SCORE, HIT_BUBBLE, SHOW_GAME_OVER_SCREEN } from './CONSTANTS';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
@@ -14,7 +13,7 @@ export class GameManager extends Component {
     private _score: number = 0;
 
     start() {
-        eventTarget.on(SHOOT_BUBBLE, e => this.shootBubble(e));
+        eventTarget.on(HIT_BUBBLE, e => this.hitBubble(e));
         eventTarget.on(GAME_OVER, e => this.setGameOver());
         eventTarget.on(RESET_GAME, e => this.reset());
 
@@ -35,6 +34,7 @@ export class GameManager extends Component {
         while (this._nextBubble == this._currentBubble) {
             this._nextBubble = this._bubbleList[randomRangeInt(0, 6)];
         }
+
         this._bubbleList.forEach((bubble: Bubble, index: number) => {
             if (this._nextBubble == bubble) {
                 bubble.setActiveBubble();
@@ -48,10 +48,11 @@ export class GameManager extends Component {
         });
     }
 
-    shootBubble(data: Bubble) {
+    hitBubble(data: Bubble) {
         this._currentBubble = data;
         this.setBubbles();
         this.setScore();
+
         eventTarget.emit(SET_HAS_SHOOT);
     }
 
