@@ -1,11 +1,14 @@
 import { _decorator, Component, randomRangeInt } from 'cc';
 import { Bubble } from './Bubble';
 import { eventTarget } from './Common';
-import { SET_HAS_SHOOT, SET_SCORE, SHOOT_BUBBLE } from './CONSTANTS';
+import { GAME_OVER, RESET_GAME, SET_HAS_SHOOT, SET_SCORE, SHOOT_BUBBLE, SHOW_GAME_OVER_SCREEN } from './CONSTANTS';
+import { Projectile } from './Projectile';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
 export class GameManager extends Component {
+    @property(Projectile)
+    private projectile: Projectile;
 
     private _bubbleList: Bubble[] = [];
     private _currentBubble: Bubble = null;
@@ -14,15 +17,20 @@ export class GameManager extends Component {
 
     start() {
         eventTarget.on(SHOOT_BUBBLE, e => this.shootBubble(e));
-        this.init();
+        eventTarget.on(GAME_OVER, e => this.setGameOver());
+        eventTarget.on(RESET_GAME, e => this.reset());
+        
+        this._bubbleList = this.getComponentsInChildren(Bubble);
+        this.reset();
     }
 
-    init() {
-        this._bubbleList = this.getComponentsInChildren(Bubble);
+    reset() {
         this._currentBubble = this._bubbleList[0];
         this._nextBubble = this._bubbleList[randomRangeInt(0, 6)];
 
         this.setBubbles();
+        this.projectile.init(this._currentBubble.node.position);
+        eventTarget.emit(SET_HAS_SHOOT);
     }
 
     private setBubbles() {
@@ -52,6 +60,10 @@ export class GameManager extends Component {
     setScore() {
         this._score++;
         eventTarget.emit(SET_SCORE, this._score);
+    }
+
+    setGameOver() {
+        eventTarget.emit(SHOW_GAME_OVER_SCREEN, this._score);
     }
 }
 

@@ -1,6 +1,6 @@
 import { _decorator, Canvas, Collider2D, Component, Contact2DType, IPhysics2DContact, math, Node, PhysicsSystem2D, randomRangeInt, RigidBody2D, Sprite, Tween, tween, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { eventTarget } from './Common';
-import { SHOOT, SHOOT_BUBBLE } from './CONSTANTS';
+import { GAME_OVER, SHOOT, SHOOT_BUBBLE } from './CONSTANTS';
 import { Bubble } from './Bubble';
 import { Obstacle } from './Obstacle';
 const { ccclass, property } = _decorator;
@@ -14,7 +14,6 @@ export class Projectile extends Component {
     @property(Canvas)
     private canvas: Canvas;
 
-    private _startPoint: Vec3 = v3(350, 0);
     private _avatar: Node;
     private _duration: number = 0;
     private _dirRotation: number = -1;
@@ -25,12 +24,15 @@ export class Projectile extends Component {
         if (PhysicsSystem2D.instance) {
             PhysicsSystem2D.instance.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
         }
+
         eventTarget.on(SHOOT, () => this.shootProjectile());
         this._rg = this.getComponent(RigidBody2D);
-        this._duration = 10 / this.speedRotation;
-
-        this.node.position = this._startPoint;
         this._avatar = this.getComponentInChildren(Sprite).node;
+        this._duration = 10 / this.speedRotation;
+    }
+
+    init(startPoint: Vec3) {
+        this.node.position = startPoint;
         this.startRotation();
     }
 
@@ -62,8 +64,7 @@ export class Projectile extends Component {
         const obstacle = selfCollider.getComponent(Obstacle);
 
         if (obstacle) {
-            console.log('game over');
-            
+            eventTarget.emit(GAME_OVER);
         }
 
         if (!bubble) {
