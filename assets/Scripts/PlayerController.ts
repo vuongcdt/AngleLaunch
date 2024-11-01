@@ -9,7 +9,6 @@ export class PlayerController extends Component {
 
     start() {
         input.on(Input.EventType.TOUCH_END, this.onTouchStart, this);
-        // input.on(Input.EventType.MOUSE_DOWN,this.onTouchStart, this);
         eventTarget.on(SET_HAS_SHOOT, e => this.setCanShoot());
     }
 
